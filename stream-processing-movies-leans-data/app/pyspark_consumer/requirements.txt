@@ -1,0 +1,3 @@
+pyspark==3.5.0
+findspark==2.0.1
+Elasticsearch==8.10.1
