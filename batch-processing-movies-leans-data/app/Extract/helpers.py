@@ -27,5 +27,5 @@ def writeDataToHDFS(prefix,content):
     now = datetime.now()
     file_name = now.strftime("%Y-%m-%d-%H")
     file_name = prefix + '_' + file_name + '.txt'
-    with open(f"/mnt/c/users/youcode/desktop/batch-processing-movies-leans-data/test/{file_name}", "a+") as file:
+    with open(f"/mnt/c/users/youcode/desktop/system-big-data-movies-fr/batch-processing-movies-leans-data/sources/{file_name}", "a+") as file:
         file.write(content)

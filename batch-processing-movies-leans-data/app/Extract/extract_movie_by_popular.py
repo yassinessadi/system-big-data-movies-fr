@@ -7,7 +7,7 @@ import pandas as pd
 import json
 
 def getMovies():
-    page_file_path = '/mnt/c/users/youcode/desktop/batch-processing-movies-leans-data/index.txt'
+    page_file_path = '/mnt/c/users/youcode/desktop/system-big-data-movies-fr/batch-processing-movies-leans-data/index.txt'
     page = helpers.readIndexOfRows(page_file_path)
     url_movie = f"https://api.themoviedb.org/3/movie/popular?language=en-US&page={page}&api_key=56281eca4b19d405a20b1ca2cd04ad9d"
     response_movies = requests.get(url_movie)

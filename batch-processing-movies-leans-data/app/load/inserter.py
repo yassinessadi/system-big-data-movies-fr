@@ -12,7 +12,7 @@ class Inserter:
         # self.engine = create_engine("mssql+pyodbc://jane_essadi:123123@172.16.9.85/TheMoviesDB?driver=ODBC+Driver+17+for+SQL+Server", echo=True)
         # self.Session = sessionmaker(bind=self.engine)
 
-        self.server = '192.168.1.2' 
+        self.server = '172.16.9.85' 
         self.database = 'TheMoviesDB' 
         self.username = 'jane_essadi' 
         self.password = '123123' 

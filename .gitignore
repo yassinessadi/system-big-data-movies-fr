@@ -1,2 +1,5 @@
 stream-processing-movies-leans-data/app/pyspark_consumer/src/checkpointLocation/
 stream-processing-movies-leans-data/api/__pycache__/
+batch-processing-movies-leans-data/app/load/__pycache__/
+batch-processing-movies-leans-data/app/dags/__pycache__/
+batch-processing-movies-leans-data/app/Extract/__pycache__/
