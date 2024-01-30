@@ -35,8 +35,8 @@ logger = logging.getLogger(__name__)
 #    init kafk producer   #
 #----+----+----+----+----+#
 producer = Producer(kafka_config)
-
-counter = 1
+# still in cinema
+counter = 20
 while True:
     base_url = f"https://api.themoviedb.org/3/movie/now_playing?language=en-US&page={counter}"
     headers = {
@@ -46,7 +46,6 @@ while True:
     response = requests.get(base_url,headers=headers)
     if response.status_code == 200:
         time.sleep(7)
-
         for i in range(len(response.json()['results'])):
             time.sleep(7)
             movie_id = response.json()['results'][i]['id']
@@ -61,6 +60,5 @@ while True:
         counter += 1
         if counter > response.json()['total_pages']:
             counter = 1
-
     else:
         logger.error("Failed to fetch movie data. HTTP status code: %d", response.status_code)

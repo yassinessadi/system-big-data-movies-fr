@@ -44,7 +44,7 @@ def get_top_movies():
     },
     "sort": [
         {
-            "vote_count": {
+            "popularity": {
                 "order": "desc"
             }
         }
@@ -81,20 +81,24 @@ def index():
 @app.route('/search', methods=['POST'])
 def search():
     query = request.form.get('query')
+    if query:
 
-     # Elasticsearch query to search by title
-    es_query = {
-        "query": {
-            "match": {
-                "title": query
+        # Elasticsearch query to search by title
+        es_query = {
+            "query": {
+                "match": {
+                    "title": query
+                }
             }
         }
-    }
-    top_movies = get_top_movies()
-    # Search using Elasticsearch
-    results = client.search(index='movies_detailsindex', body=es_query,size=1000)
-    search_results = results['hits']['hits']
-    return render_template("search.html",search_results=search_results,top_movies=top_movies)
+        top_movies = get_top_movies()
+        # Search using Elasticsearch
+        results = client.search(index='movies_detailsindex', body=es_query,size=1000)
+        search_results = results['hits']['hits']
+        print(search_results)
+        return render_template("search.html",search_results=search_results,top_movies=top_movies)
+    else:
+       return render_template("page_404.html")
 
 
 

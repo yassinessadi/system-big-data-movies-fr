@@ -78,7 +78,7 @@ selected_cols_df = exploded_df.select(
     F.col("result.adult").alias('adult'),
     F.col("result.backdrop_path").alias('backdrop_path'),
     F.col("result.budget").alias('budget'),
-    F.col("result.genres.name").alias('genre'),
+    F.col("result.genres").alias('genre'),
     F.col("result.homepage").alias('homepage'),
     F.col("result.id").alias('id'),
     F.col("result.imdb_id").alias('imdb_id'),
@@ -89,17 +89,12 @@ selected_cols_df = exploded_df.select(
     F.col("result.poster_path").alias('poster_path'),
     F.col("result.release_date").alias('release_date'),
 
-    F.col("result.production_companies.id").alias('production_companies_id'),
-    F.col("result.production_companies.logo_path").alias('production_companies_logo_path'),
-    F.col("result.production_companies.name").alias('production_companies_name'),
-    F.col("result.production_companies.origin_country").alias('production_companies_origin_country'),
+    F.col("result.production_companies").alias('production_companies'),
+    F.col("result.belongs_to_collection").alias('belongs_to_collection'),
 
     F.col("result.revenue").alias('revenue'),
-    F.col("result.production_countries.iso_3166_1").alias('production_countries_iso_3166_1'),
-    F.col("result.production_countries.name").alias('production_countries_name'),
-    F.col("result.spoken_languages.name").alias('spoken_languages_name'),
-    F.col("result.spoken_languages.english_name").alias('spoken_languages_english_name'),
-    F.col("result.spoken_languages.iso_639_1").alias('spoken_languages_iso_639_1'),
+    F.col("result.production_countries").alias('production_countries'),
+    F.col("result.spoken_languages").alias('spoken_languages'),
     F.col("result.status").alias('status'),
     F.col("result.tagline").alias('tagline'),
     F.col("result.title").alias('title'),
@@ -109,6 +104,7 @@ selected_cols_df = exploded_df.select(
 
 # List of string columns
 string_columns = [col[0] for col in selected_cols_df.dtypes if col[1] == 'string']
+
 
 # Replace null values with "not exist" only for string columns
 selected_cols_df_filled = selected_cols_df.na.fill("not exist", subset=string_columns)
@@ -125,21 +121,16 @@ movies_mappings ={
       "id": { "type": "integer" },
       "imdb_id": { "type": "keyword" },
       "original_language": { "type": "keyword" },
+      "belongs_to_collection": { "type": "keyword" },
       "original_title": { "type": "text" },
       "overview": { "type": "text" },
       "popularity": { "type": "float" },
       "poster_path": { "type": "text" },
       "release_date": { "type": "date" },
-      "production_companies_id": { "type": "integer" },
-      "production_companies_logo_path": { "type": "text" },
-      "production_companies_name": { "type": "text" },
-      "production_companies_origin_country": { "type": "keyword" },
       "revenue": { "type": "integer" },
-      "production_countries_iso_3166_1": { "type": "keyword" },
-      "production_countries_name": { "type": "text" },
-      "spoken_languages_name": { "type": "text" },
-      "spoken_languages_english_name": { "type": "text" },
-      "spoken_languages_iso_639_1": { "type": "keyword" },
+      "production_countries": { "type": "keyword" },
+      "production_companies": { "type": "keyword" },
+      "spoken_languages": { "type": "keyword" },
       "status": { "type": "keyword" },
       "tagline": { "type": "text" },
       "title": { "type": "text" },
@@ -148,8 +139,6 @@ movies_mappings ={
     }
   }
 }
-
-
 
 # +---+--------+------+------+-------------------+------++-------------------+------+#
 #                 connect to elasticsearch and insert into the target index          #
@@ -186,7 +175,6 @@ query = selected_cols_df_filled.writeStream.outputMode("append").format("console
 
 
 query.awaitTermination()
-
 
 
 
