@@ -256,7 +256,7 @@ DROP INDEX idx_production_companies_name ON ProductionsCompanies;
 
 
 
-SELECT COUNT(*)
+SELECT *
 FROM FactProductions AS F
 INNER JOIN Movies_ProductionCompanies AS MP ON F.id = MP.movie_id
 INNER JOIN ProductionsCompanies AS P ON MP.production_companies_id = P.id
@@ -264,7 +264,8 @@ INNER JOIN MovieGenres AS MG ON F.id = MG.movie_id
 INNER JOIN Genres AS G ON G.id = MG.genre_id
 INNER JOIN MovieDetails AS M ON M.id = F.id
 INNER JOIN MovieCredits AS MC ON MC.movie_id = F.id
-INNER JOIN Actors AS A ON A.id = MC.cast_id;
+INNER JOIN Actors AS A ON A.id = MC.cast_id
+where F.id =11
 
 
 
