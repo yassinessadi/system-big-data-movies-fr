@@ -256,62 +256,35 @@ DROP INDEX idx_production_companies_name ON ProductionsCompanies;
 
 
 
-SELECT count(*)
-From (((((((FactProductions as F 
-Inner join Movies_ProductionCompanies as MP
-on  F.id = MP.movie_id)
-Inner join ProductionsCompanies as P
-on MP.production_companies_id = P.id)
-inner join MovieGenres as MG
-on F.id = Mg.movie_id)
-inner join Genres as G
-on G.id = MG.genre_id)
-inner join MovieDetails as M
-on M.id = F.id)
-inner join MovieCredits MC
-on Mc.movie_id = F.id)
-inner join Actors as A
-on A.id = MC.cast_id)
+SELECT COUNT(*)
+FROM FactProductions AS F
+INNER JOIN Movies_ProductionCompanies AS MP ON F.id = MP.movie_id
+INNER JOIN ProductionsCompanies AS P ON MP.production_companies_id = P.id
+INNER JOIN MovieGenres AS MG ON F.id = MG.movie_id
+INNER JOIN Genres AS G ON G.id = MG.genre_id
+INNER JOIN MovieDetails AS M ON M.id = F.id
+INNER JOIN MovieCredits AS MC ON MC.movie_id = F.id
+INNER JOIN Actors AS A ON A.id = MC.cast_id;
 
 
 
 
+---------------------------------------views--------------------------------------------------
 
-
-
---------------------------------------------------------------------------------------------------
-
--- Enable Filegroup for Partitioning
-ALTER DATABASE TheMoviesDB ADD FILEGROUP FactProductions_FG;
-
--- Create Partition Scheme
-CREATE PARTITION SCHEME FactProductions_PS
-    AS PARTITION FactProductionsRange
-    ALL TO ( [PRIMARY] );
-
--- Create Partition Function
-CREATE PARTITION FUNCTION FactProductions_PF (DATE)
-    AS RANGE LEFT FOR VALUES ('2022-01-01', '2023-01-01', '2024-01-01'); -- Specify appropriate date ranges
-
--- Add Partition Column to FactProductions table
-ALTER TABLE FactProductions
-    ADD CONSTRAINT FactProductions_Partition
-    FOREIGN KEY ([release_date])
-    REFERENCES [MovieDetails]([release_date]) -- Reference column used for partitioning
-    ON DELETE CASCADE ON UPDATE CASCADE;
-
--- Create Clustered Index with Partition Scheme
-CREATE CLUSTERED INDEX CIX_FactProductions
-    ON FactProductions ([release_date])
-    WITH (DROP_EXISTING = ON)
-    ON FactProductions_PS ([release_date]);
-
--- Create Non-Clustered Indexes on other columns if needed
-CREATE INDEX IX_FactProductions_Budget
-    ON FactProductions ([budget])
-    ON FactProductions_PS ([release_date]);
-
--- Repeat similar steps for other tables if necessary
-
--- Create Statistics for Partitioned Tables
-CREATE STATISTICS [Statistics_FactProductions] ON FactProductions([release_date]);
+go
+CREATE VIEW FactProductionsMoviesDetailsView AS
+SELECT 
+    F.id,
+    F.budget,
+    F.popularity,
+    F.revenue,
+    F.runtime,
+    F.vote_average,
+    M.title,
+    M.original_language,
+    M.release_date,
+    M.status
+FROM 
+    dbo.FactProductions AS F
+INNER JOIN 
+    MovieDetails AS M ON F.id = M.id;

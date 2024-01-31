@@ -35,11 +35,19 @@ The extracted data is subsequently stored in three distinct files named `movies_
 
 #### **`Data Preparation`:**
 
-#### **`Store (Data Warehouse & Data Modeling)`:**
+#### **`Store (Data Warehouse -> Modeling)`:**
 
 The `data modeling` below is designed specifically for analytical purposes in the realm of `movies`. This structured approach aims to optimize data storage and retrieval within the `data warehouse`, ensuring efficient and insightful analytics tailored to `movie-related` insights:
 
 <img src="assets/daigram-movies.jpg"/>
+
+<hr style='color:SkyBlue'/>
+
+#### **`Store (Data mart -> Modeling)`:**
+
+<img src='assets/datamart-compines-movie-genre.png'>
+
+This data mart is designed to help understand how companies and movies are connected. It aims to provide insights for movie production by focusing on key aspects like company budgets, movie popularity, revenue, and the genres each company uses in its movies.
 
 <hr style='color:SkyBlue'/>
 
@@ -83,7 +91,7 @@ example:
 
 #### **`Airflow (Schedules the tasks)`:**
 
-<img src='assets/dag.png'/>
+<img src='assets/dags.png'/>
 
 This process aims to automate the workflow. The Airflow scheduler runs every 7 minutes, executing the specified steps below to automate the workflow. Each step represents a Bash operation. For more details, refer to the comments below, which explain the workflow and the purpose of each step :
 
@@ -108,4 +116,3 @@ This process aims to automate the workflow. The Airflow scheduler runs every 7 m
 The Gantt chart of the Airflow scheduler is shown in the image below, indicating the time taken for each task to complete the process.
 
 <img src='assets/dags_gantt.png'/>
-
