@@ -1,6 +1,6 @@
 ### **Introduction:**
 
-This project aims to collect, ingest, store, and consume data from The Movie Database (TMDb) API using bash processing. For a comprehensive overview of the project's requirements, refer to the tools mentioned in the [`project's tools`](https://github.com/yassinessadi/fill-rouge-movies-leans-data/blob/main/docs/project-tools.md) README file.
+This project aims to collect, ingest, store, and consume data from The Movie Database (TMDb) API using bash processing. For a comprehensive overview of the project's requirements, refer to the tools mentioned in the [`project's tools`](https://github.com/yassinessadi/system-big-data-movies-fr/blob/main/docs/) README file.
 
 ### **Project Architecture:**
 
@@ -95,23 +95,23 @@ example:
 
 This process aims to automate the workflow. The Airflow scheduler runs every 7 minutes, executing the specified steps below to automate the workflow. Each step represents a Bash operation. For more details, refer to the comments below, which explain the workflow and the purpose of each step :
 
-> [is_movies_api_ready](https://github.com/yassinessadi/fill-rouge-movies-leans-data/blob/main/app/dags/themoviedb_dag.py) : Verify The Movie Database (TMDb) API for data consumption.
+> [is_movies_api_ready](https://github.com/yassinessadi/system-big-data-movies-fr/blob/main/batch-processing-movies-leans-data/app/dags/themoviedb_dag.py) : Verify The Movie Database (TMDb) API for data consumption.
 
-> [extract_movie](https://github.com/yassinessadi/fill-rouge-movies-leans-data/blob/main/app/Extract/extract_movie_by_popular.py) : Retrieve movie data using the 'requests' module and store it in .txt files.
+> [extract_movie](https://github.com/yassinessadi/system-big-data-movies-fr/blob/main/batch-processing-movies-leans-data/app/Extract/extract_movie_by_popular.py) : Retrieve movie data using the 'requests' module and store it in .txt files.
 
-> [is_files_extracted](https://github.com/yassinessadi/fill-rouge-movies-leans-data/blob/main/app/load/_init_.py) : Verify the readiness of the files for use.
+> [is_files_extracted](https://github.com/yassinessadi/system-big-data-movies-fr/blob/main/batch-processing-movies-leans-data/app/load) : Verify the readiness of the files for use.
 
-> [load_FactProductions_movies_data](https://github.com/yassinessadi/fill-rouge-movies-leans-data/blob/main/app/load/load_fact_movies.py) : This operation focuses on loading measurement data, acting as the fact table for movies
+> [load_FactProductions_movies_data](https://github.com/yassinessadi/system-big-data-movies-fr/blob/main/batch-processing-movies-leans-data/app/load) : This operation focuses on loading measurement data, acting as the fact table for movies
 
-> [load_movie_details_data](https://github.com/yassinessadi/fill-rouge-movies-leans-data/blob/main/app/load/load_movie_details.py): Load data related to movies.
+> [load_movie_details_data](https://github.com/yassinessadi/system-big-data-movies-fr/blob/main/batch-processing-movies-leans-data/app/load/): Load data related to movies.
 
 > load_actors_data : Load data related to cast (Actor , Crew).
 
-> [load_production_compines_data](https://github.com/yassinessadi/fill-rouge-movies-leans-data/blob/main/app/load/load_productions_companies.py) : Load data related to production compines
+> [load_production_compines_data](https://github.com/yassinessadi/system-big-data-movies-fr/blob/main/batch-processing-movies-leans-data/app/load/) : Load data related to production compines
 
-> [load_movies_production_companies_data](https://github.com/yassinessadi/fill-rouge-movies-leans-data/blob/main/app/load/load_movies_production_compiens.py): Load data into the 'movies_production_companies' table, which acts as a linking table (bridge table) facilitating the association between movies and production companies.
+> [load_movies_production_companies_data](https://github.com/yassinessadi/system-big-data-movies-fr/blob/main/batch-processing-movies-leans-data/app/load/): Load data into the 'movies_production_companies' table, which acts as a linking table (bridge table) facilitating the association between movies and production companies.
 
-> [load_moviecredits_data](https://github.com/yassinessadi/fill-rouge-movies-leans-data/blob/main/app/load/load_moviecredits.py) : load data to bridge table between movies and casts.
+> [load_moviecredits_data](https://github.com/yassinessadi/system-big-data-movies-fr/blob/main/batch-processing-movies-leans-data/app/load/) : load data to bridge table between movies and casts.
 
 The Gantt chart of the Airflow scheduler is shown in the image below, indicating the time taken for each task to complete the process.
 
