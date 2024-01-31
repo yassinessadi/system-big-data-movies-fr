@@ -96,7 +96,7 @@ def get_all_movies():
 # 
 #  Search By title
 # 
-def search_movies(query, size=100):
+def search_movies(query, size:int):
     # Perform a search in Elasticsearch
     search_query = {
         "query": {
@@ -111,9 +111,19 @@ def search_movies(query, size=100):
     return result['hits']['hits']
 
 
+# ---------------------------------------------------------------------------------
+# A cosine similarity is a value that is bound by a constrained range of 0 and 1
+# the function 
+# ---------------------------------------------------------------------------------
 
-def cosine_similarity_search(query_title, search_size=100, threshold=0.5):
-    # Fetch all movies without pagination
+
+def cosine_similarity_search(query_title:str, search_size:int=100, threshold:int=0.5):
+    """
+    args:
+     - `query_title`: Movie title specified by the user in the input.
+     - `search_size`: number of results
+     - `threshold`: If the cosine similarity match is greater than 0.5, the function will return these movies
+    """
     all_movies = get_all_movies()
     titles = [movie['_source']['title'] for movie in all_movies]
 
@@ -128,7 +138,8 @@ def cosine_similarity_search(query_title, search_size=100, threshold=0.5):
 
     # If no search results, return an empty list
     if not search_titles:
-        return []
+        print(search_titles)
+        return render_template("page_404.html")
 
     # Transform the search title using the fitted vectorizer
     query_vector = vectorizer.transform([query_title]).toarray()
@@ -144,12 +155,10 @@ def cosine_similarity_search(query_title, search_size=100, threshold=0.5):
 
     return top_movies
 
-
 @app.route('/search', methods=['POST'])
 def search():
     query = request.form.get('query')
     if query:
-
         search_result = cosine_similarity_search(query)
         top_movies = get_top_movies()
         # Search using Elasticsearch
@@ -157,7 +166,8 @@ def search():
         # search_results = results['hits']['hits']
         return render_template("search.html",search_results=search_result,top_movies=top_movies)
     else:
-       return render_template("page_404.html")
+        result = get_top_movies()
+        return render_template("index.html",movies=result,top_movies=result, page=1, size=5, total_pages=0)
 
 
 
