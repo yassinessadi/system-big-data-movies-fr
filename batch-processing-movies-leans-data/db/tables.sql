@@ -150,6 +150,11 @@ where id = 49049
 
 select * from genres
 select * from MovieDetails
+where id = 1228246
+
+update MovieDetails
+set release_date = '2014-11-11'
+where id = 1228246
 
 -------------------------
 select * from MovieCredits

@@ -39,7 +39,7 @@ with DAG('movies_dag',
         is_movies_api_ready = HttpSensor(
             task_id ='is_movie_api_ready',
             http_conn_id='themoviedb_api',
-            endpoint=f'/3/movie/popular?language=en-US&page=1&api_key=56281eca4b19d405a20b1ca2cd04ad9d'
+            endpoint=f'/3/movie/popular?language=en-US&page=1&api_key=45c8905fe10909a48e3cdd7dc69b31ca'
         )
         
         is_movies_api_ready >> extract_movie >> is_files_extracted

@@ -9,7 +9,7 @@ import json
 def getMovies():
     page_file_path = '/mnt/c/users/youcode/desktop/system-big-data-movies-fr/batch-processing-movies-leans-data/index.txt'
     page = helpers.readIndexOfRows(page_file_path)
-    url_movie = f"https://api.themoviedb.org/3/movie/popular?language=en-US&page={page}&api_key=56281eca4b19d405a20b1ca2cd04ad9d"
+    url_movie = f"https://api.themoviedb.org/3/movie/popular?language=en-US&page={page}&api_key=45c8905fe10909a48e3cdd7dc69b31ca"
     response_movies = requests.get(url_movie)
     if response_movies.status_code == 200:
         helpers.writeIndexOfRows(page_file_path,page,1)
@@ -23,7 +23,7 @@ if res != None:
     data_movies = json.loads(res)
     movie_id = [data_movies["results"][x]['id'] for x in range(len(data_movies["results"]))]
     for _id in movie_id:
-        url_movie = f"https://api.themoviedb.org/3/movie/{_id}?language=en-US&api_key=56281eca4b19d405a20b1ca2cd04ad9d"
+        url_movie = f"https://api.themoviedb.org/3/movie/{_id}?language=en-US&api_key=45c8905fe10909a48e3cdd7dc69b31ca"
         response_movie = requests.get(url_movie)
         if response_movie.status_code == 200:
             df_movie = pd.DataFrame([response_movie.json()])
@@ -31,7 +31,7 @@ if res != None:
             helpers.writeDataToHDFS('movies',json_movie)
             
         # -------------------------------------------------------------?
-        url_credits = f"https://api.themoviedb.org/3/movie/{_id}/credits?language=en-US&api_key=56281eca4b19d405a20b1ca2cd04ad9d"
+        url_credits = f"https://api.themoviedb.org/3/movie/{_id}/credits?language=en-US&api_key=45c8905fe10909a48e3cdd7dc69b31ca"
         response_credits = requests.get(url_credits)
         if response_credits.status_code == 200:
             data_credits = response_credits.json()
